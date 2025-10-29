@@ -1,18 +1,18 @@
 package org.example.entidades;
 
+import jdk.jshell.Snippet;
+
 public class Presenca {
     private int id;
 
-    public enum tipoStatus{Presente,Faltou,Justificado}
-
-    private tipoStatus Status;
+    private String status;
 
     public Presenca() {
     }
 
-    public Presenca(int id, tipoStatus status) {
+    public Presenca(int id, String status) {
         this.id = id;
-        Status = status;
+        this.status = status;
     }
 
     public int getId() {
@@ -23,11 +23,11 @@ public class Presenca {
         this.id = id;
     }
 
-    public tipoStatus getStatus() {
-        return Status;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatus(tipoStatus status) {
-        Status = status;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

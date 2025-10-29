@@ -1,28 +1,28 @@
 package repository;
 
-import org.example.entidades.Aula;
+import org.example.entidades.Presenca;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AulaRepository implements EntityBd<Aula> {
-private ConectionBD conectionBd;
+public class PresencaRepository implements EntityBd<Presenca> {
+    private ConectionBD conectionBd;
 
-    public AulaRepository(ConectionBD conectionBD) {
+    public PresencaRepository(ConectionBD conectionBD) {
         this.conectionBd = conectionBD;
     }
 
 
     @Override
-    public void salvar(Aula entidade) {
-        String sql = "INSERT INTO aulas (conteudo, data, observacoes) VALUES (?, ?, ?)";
+    public void salvar(Presenca entidade) {
+        String sql = "INSERT INTO presenças (status) VALUES (?)";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 
-            stmt.setString(1, entidade.getConteudo());
-            stmt.setDate(2, entidade.getData());
-            stmt.setString(3, entidade.getObservacoes());
+            stmt.setString(1,entidade.getStatus());
+
 
             stmt.executeUpdate();
 
@@ -39,7 +39,7 @@ private ConectionBD conectionBd;
 
     @Override
     public void deletar(int id) {
-        String sql = "DELETE FROM aulas WHERE id = ?";
+        String sql = "DELETE FROM presenças WHERE id = ?";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -50,14 +50,12 @@ private ConectionBD conectionBd;
     }
 
     @Override
-    public void atualizar(Aula entidade) {
-        String sql = "UPDATE aulas SET conteudo = ?, data = ?, obsevacoes = ? WHERE id = ?";
+    public void atualizar(Presenca entidade) {
+        String sql = "UPDATE presenças SET status = ? WHERE id = ?";
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
 
-            stmt.setString(1, entidade.getConteudo());
-            stmt.setDate(2, entidade.getData());
-            stmt.setString(3, entidade.getObservacoes());
-            stmt.setInt(4, entidade.getId());
+            stmt.setString(1, entidade.getStatus());
+            stmt.setInt(2, entidade.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -66,19 +64,17 @@ private ConectionBD conectionBd;
     }
 
     @Override
-    public List<Aula> listar() {
-        List<Aula> aulasList = new ArrayList<>();
-        String sql = "SELECT id, conteudo, data, observacoes FROM aulas";
+    public List<Presenca> listar() {
+        List<Presenca> presencasList = new ArrayList<>();
+        String sql = "SELECT id, status FROM presenças";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                aulasList.add(new Aula(
+                presencasList.add(new Presenca(
                         rs.getInt("id"),
-                        rs.getString("conteudo"),
-                        rs.getDate("data"),
-                        rs.getString("obsevacoes")
+                        rs.getString("status")
 
 
                 ));
@@ -88,6 +84,6 @@ private ConectionBD conectionBd;
             throw new RuntimeException(e);
         }
 
-        return aulasList;
+        return presencasList;
     }
 }
