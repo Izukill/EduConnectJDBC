@@ -2,6 +2,7 @@ package org.example.entidades;
 
 public class Disciplina {
     private int id;
+    private int id_professor; //fk
 
     private Integer ch;
     private String ementa;
@@ -10,11 +11,13 @@ public class Disciplina {
     public Disciplina() {
     }
 
-    public Disciplina(int id, Integer ch, String ementa, String nome) {
+    public Disciplina(int id, Integer ch, String ementa, String nome, int id_professor) {
         this.id = id;
         this.ch = ch;
         this.ementa = ementa;
         this.nome = nome;
+        this.id_professor = id_professor;
+
     }
 
     public int getId() {
@@ -47,5 +50,13 @@ public class Disciplina {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getId_professor() {
+        return id_professor;
+    }
+
+    public void setId_professor(int id_professor) {
+        this.id_professor = id_professor;
     }
 }

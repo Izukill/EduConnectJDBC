@@ -16,13 +16,14 @@ public class TurmaRepository implements EntityBd<Turma> {
 
     @Override
     public void salvar(Turma entidade) {
-        String sql = "INSERT INTO turmas (turno, nome) VALUES (?, ?)";
+        String sql = "INSERT INTO turmas (turno, nome, id_disciplina) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 
             stmt.setString(1, entidade.getTurno());
             stmt.setString(2, entidade.getNome());
+            stmt.setInt(3, entidade.getId_disciplina());
 
             stmt.executeUpdate();
 
@@ -51,12 +52,13 @@ public class TurmaRepository implements EntityBd<Turma> {
 
     @Override
     public void atualizar(Turma entidade) {
-        String sql = "UPDATE turmas SET turno = ?, nome = ? WHERE id = ?";
+        String sql = "UPDATE turmas SET turno = ?, nome = ?, id_disciplina = ? WHERE id = ?";
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
 
             stmt.setString(1, entidade.getTurno());
             stmt.setString(2, entidade.getNome());
-            stmt.setInt(3, entidade.getId());
+            stmt.setInt(3, entidade.getId_disciplina());
+            stmt.setInt(4, entidade.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -67,7 +69,7 @@ public class TurmaRepository implements EntityBd<Turma> {
     @Override
     public List<Turma> listar() {
         List<Turma> turmasList = new ArrayList<>();
-        String sql = "SELECT id, turno, nome FROM turmas";
+        String sql = "SELECT id, turno, nome, id_disciplina FROM turmas";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -76,7 +78,8 @@ public class TurmaRepository implements EntityBd<Turma> {
                 turmasList.add(new Turma(
                         rs.getInt("id"),
                         rs.getString("Turno"),
-                        rs.getString("nome")
+                        rs.getString("nome"),
+                        rs.getInt("id_disciplina")
                 ));
             }
 
