@@ -1,9 +1,7 @@
-import org.example.entidades.Aluno;
-import org.example.entidades.Coordenador;
-import org.example.entidades.Pessoa;
-import org.example.entidades.Professor;
+import org.example.entidades.*;
 import repository.*;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Main {
@@ -29,43 +27,59 @@ public class Main {
 
 
 
+
+
+        //CRIAR E SALVAR TURMA
+
+        Turma turma= new Turma();
+        TurmaRepository turmaRepository= new TurmaRepository(conectionBD.Conectar());
+        turma.setNome("Turma 1-A");
+        turma.setTurno("manhã");
+        turmaRepository.salvar(turma);
+
         // === CRIAR E SALVAR ALUNO ===
         Aluno aluno = new Aluno();
         AlunoRepository alunoRepository=new AlunoRepository(conectionBD.Conectar());
         aluno.setNome("luan loreto");
         aluno.setEmail("ronaldo@gmail.com");
-        aluno.setCpf("12943614483");
+        aluno.setCpf("11111111110");
         aluno.setTelefone("83 9123-1456");
         aluno.setSenha_hash("axcdSGER134fgd");
         aluno.setMatricula(aluno.gerarMatricula());
+        aluno.setIdTurma(turma.getId());
 
-        //alunoRepository.salvar(aluno);
+        alunoRepository.salvar(aluno);
 
 
-        // === CRIAR E SALVAR PROFESSOR ===
-        Professor professor = new Professor();
+
+        // CRIAR E SALVAR PROFESSOR
+        Professor professor= new Professor();
         ProfessorRepository professorRepository= new ProfessorRepository(conectionBD.Conectar());
-        professor.setNome("Ana Beatriz");
-        professor.setEmail("ana@gmail.com");
-        professor.setCpf("98765432100");
-        professor.setTelefone("83 99876-5432");
-        professor.setSenha_hash("senhaPro123");
-        professor.setSalario(1500.00f);
-
-        //professorRepository.salvar(professor);
+        professor.setNome("Adalberto");
+        professor.setCpf("1230910239");
+        professor.setEmail("adalberto@gmail.com.br");
+        professor.setSenha_hash("sdf!#$%df");
+        professor.setTelefone("839912345456");
+        professor.setSalario(1.500f);
 
 
-        // === CRIAR E SALVAR COORDENADOR ===
-        Coordenador coordenador = new Coordenador();
-        CoordenadorRepository coordenadorRepository= new CoordenadorRepository(conectionBD.Conectar());
-        coordenador.setNome("Carlos Souza");
-        coordenador.setEmail("carlos@gmail.com");
-        coordenador.setCpf("45678912300");
-        coordenador.setTelefone("83 99456-7890");
-        coordenador.setSenha_hash("coord2024");
-        coordenador.setSalario(5830.00f);
 
-        //coordenadorRepository.salvar(coordenador);
+
+        // CRIAR E SALVAR AULA
+
+        Aula aula = new Aula();
+        aula.setConteudo("MongoDb muito foda");
+        aula.setData(new Date(System.currentTimeMillis()));
+        aula.setObservacoes("Aula muito pica");
+
+
+
+
+
+
+
+
+
 
 
 
@@ -73,8 +87,8 @@ public class Main {
 
         try{
 
-            professorRepository.salvar(professor);
-            coordenadorRepository.salvar(coordenador);
+
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);

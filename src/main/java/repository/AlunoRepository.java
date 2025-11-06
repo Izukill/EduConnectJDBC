@@ -27,12 +27,13 @@ public class AlunoRepository implements EntityBd<Aluno> {
 
         pessoaRepository.salvar(entidade);
 
-        String sql="INSERT into alunos (pessoa_id, matricula) VALUES (?, ?)"; //TODO adicionar fk de turma
+        String sql="INSERT into alunos (pessoa_id, matricula, turma_id) VALUES (?, ?, ?)";
 
         try(PreparedStatement stmt= connectionBd.prepareStatement(sql)){
 
             stmt.setInt(1,entidade.getId());
             stmt.setLong(2,entidade.getMatricula());
+            stmt.setInt(3, entidade.getIdTurma());
 
             stmt.executeUpdate();
 
@@ -70,13 +71,14 @@ public class AlunoRepository implements EntityBd<Aluno> {
         pessoaRepository.atualizar(entidade);
 
 
-        String sql= "UPDATE alunos SET matricula = ? WHERE pessoa_id = ? ";
+        String sql= "UPDATE alunos SET matricula = ?, turma_id = ? WHERE pessoa_id = ? ";
 
         try(PreparedStatement stmt= connectionBd.prepareStatement(sql)){
 
 
             stmt.setLong(1,entidade.getMatricula());
-            stmt.setInt(2,entidade.getId());
+            stmt.setInt(2, entidade.getIdTurma());
+            stmt.setInt(3,entidade.getId());
             stmt.executeUpdate();
 
 
@@ -101,6 +103,7 @@ public class AlunoRepository implements EntityBd<Aluno> {
             while (rs.next()){
                 alunosList.add(new Aluno(
                         rs.getInt("pessoa_id"),
+                        rs.getInt("turma_id"),
                         rs.getString("nome"),
                         rs.getString("email"),
                         rs.getString("cpf"),
