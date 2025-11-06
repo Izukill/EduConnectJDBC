@@ -16,12 +16,14 @@ public class PresencaRepository implements EntityBd<Presenca> {
 
     @Override
     public void salvar(Presenca entidade) {
-        String sql = "INSERT INTO presenças (status) VALUES (?)";
+        String sql = "INSERT INTO presenças (status, id_aluno, id_turma) VALUES (?,?,?)";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 
             stmt.setString(1,entidade.getStatus());
+            stmt.setInt(2,entidade.getId_aluno());
+            stmt.setInt(3,entidade.getId_turma());
 
 
             stmt.executeUpdate();
@@ -51,11 +53,13 @@ public class PresencaRepository implements EntityBd<Presenca> {
 
     @Override
     public void atualizar(Presenca entidade) {
-        String sql = "UPDATE presenças SET status = ? WHERE id = ?";
+        String sql = "UPDATE presenças SET status = ?, id_aluno = ?, id_turma = ? WHERE id = ?";
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
 
             stmt.setString(1, entidade.getStatus());
-            stmt.setInt(2, entidade.getId());
+            stmt.setInt(2, entidade.getId_aluno());
+            stmt.setInt(3, entidade.getId_turma());
+            stmt.setInt(4, entidade.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -66,7 +70,7 @@ public class PresencaRepository implements EntityBd<Presenca> {
     @Override
     public List<Presenca> listar() {
         List<Presenca> presencasList = new ArrayList<>();
-        String sql = "SELECT id, status FROM presenças";
+        String sql = "SELECT id, status, id_aluno, id_turma FROM presenças";
 
         try (PreparedStatement stmt = conectionBd.Conectar().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -74,7 +78,9 @@ public class PresencaRepository implements EntityBd<Presenca> {
             while (rs.next()) {
                 presencasList.add(new Presenca(
                         rs.getInt("id"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getInt("id_aluno"),
+                        rs.getInt("id_turma")
 
 
                 ));
