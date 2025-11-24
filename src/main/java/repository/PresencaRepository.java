@@ -1,6 +1,7 @@
 package repository;
 
-import org.example.entidades.Presenca;
+import config.ConectionBD;
+import entidades.Presenca;
 
 import java.sql.*;
 import java.util.ArrayList;

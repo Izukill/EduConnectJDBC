@@ -1,8 +1,8 @@
-import org.example.entidades.*;
+import config.ConectionBD;
+import entidades.*;
 import repository.*;
 
 import java.sql.Date;
-import java.util.List;
 
 public class Main {
 

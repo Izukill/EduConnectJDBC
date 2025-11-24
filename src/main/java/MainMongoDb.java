@@ -1,5 +1,7 @@
 import config.MongoConnection;
-import repository.PresencaMongoRepository;
+import MongoDbService.PresencaMongoDb;
+
+import java.time.LocalDate;
 
 public class MainMongoDb {
 
@@ -8,10 +10,10 @@ public class MainMongoDb {
 
         MongoConnection mongoConnection= new MongoConnection();
 
-        PresencaMongoRepository mongoRepository = new PresencaMongoRepository(mongoConnection);
+        PresencaMongoDb mongoRepository = new PresencaMongoDb(mongoConnection);
 
         //envia uma presença de teste
-        mongoRepository.salvarPresenca(22, 101, "PRESENTE");
+        mongoRepository.salvar(22, 101, "PRESENTE", LocalDate.of(2025,11,06));
 
 
     }

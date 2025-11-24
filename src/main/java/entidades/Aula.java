@@ -1,10 +1,11 @@
-package org.example.entidades;
+package entidades;
 
 import java.sql.Date;
 
 public class Aula {
     private int id;
-    private int id_aluno; //FK
+
+    private int id_turma;
     private int id_professor; //FK
     private String conteudo;
     private Date data;
@@ -13,12 +14,12 @@ public class Aula {
     public Aula() {
     }
 
-    public Aula(int id, String conteudo, Date data, String observacoes, int id_aluno, int id_professor) {
+    public Aula(int id, String conteudo, Date data, String observacoes,int id_turma, int id_professor) {
         this.id = id;
         this.conteudo = conteudo;
         this.data = data;
         this.observacoes = observacoes;
-        this.id_aluno = id_aluno;
+        this.id_turma= id_turma;
         this.id_professor = id_professor;
     }
 
@@ -54,12 +55,12 @@ public class Aula {
         this.observacoes = observacoes;
     }
 
-    public int getId_aluno() {
-        return id_aluno;
+    public int getId_turma() {
+        return id_turma;
     }
 
-    public void setId_aluno(int id_aluno) {
-        this.id_aluno = id_aluno;
+    public void setId_turma(int id_turma) {
+        this.id_turma = id_turma;
     }
 
     public int getId_professor() {

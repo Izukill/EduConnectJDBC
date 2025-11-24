@@ -1,8 +1,13 @@
-package org.example.entidades;
+package entidades;
+
+import java.util.List;
 
 public class Disciplina {
+
+
     private int id;
     private int id_professor; //fk
+
 
     private Integer ch;
     private String ementa;
@@ -58,5 +63,17 @@ public class Disciplina {
 
     public void setId_professor(int id_professor) {
         this.id_professor = id_professor;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Disciplina{" +
+                "ch=" + ch +
+                ", id=" + id +
+                ", id_professor=" + id_professor +
+                ", ementa='" + ementa + '\'' +
+                ", nome='" + nome + '\'' +
+                '}';
     }
 }

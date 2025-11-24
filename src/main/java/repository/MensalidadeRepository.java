@@ -1,6 +1,6 @@
 package repository;
 
-import org.example.entidades.Mensalidade;
+import entidades.Mensalidade;
 
 import java.sql.*;
 import java.util.ArrayList;

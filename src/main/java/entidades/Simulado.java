@@ -1,27 +1,25 @@
-package org.example.entidades;
+package entidades;
 
 public class Simulado {
 
-    private int idSimulado;
+    private int id;
     private String descricao;
     private int qtdQuestoes;
-    private int idTurma; // FK
 
     public Simulado() {}
 
-    public Simulado(int idSimulado, String descricao, int qtdQuestoes, int idTurma) {
-        this.idSimulado = idSimulado;
+    public Simulado(int idSimulado, String descricao, int qtdQuestoes) {
+        this.id = idSimulado;
         this.descricao = descricao;
         this.qtdQuestoes = qtdQuestoes;
-        this.idTurma = idTurma;
     }
 
-    public int getIdSimulado() {
-        return idSimulado;
+    public int getId() {
+        return id;
     }
 
-    public void setIdSimulado(int idSimulado) {
-        this.idSimulado = idSimulado;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -40,11 +38,13 @@ public class Simulado {
         this.qtdQuestoes = qtdQuestoes;
     }
 
-    public int getIdTurma() {
-        return idTurma;
-    }
 
-    public void setIdTurma(int idTurma) {
-        this.idTurma = idTurma;
+    @Override
+    public String toString() {
+        return "Simulado{" +
+                "descricao='" + descricao + '\'' +
+                ", idSimulado=" + id +
+                ", qtdQuestoes=" + qtdQuestoes +
+                '}';
     }
 }

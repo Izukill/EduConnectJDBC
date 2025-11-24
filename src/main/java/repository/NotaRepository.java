@@ -1,6 +1,6 @@
 package repository;
 
-import org.example.entidades.Nota;
+import entidades.Nota;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,22 +16,25 @@ public class NotaRepository implements EntityBd<Nota> {
 
     @Override
     public void salvar(Nota entidade) {
-        String sql = "INSERT INTO notas (nota_linguagens, nota_ciencias_humanas, nota_ciencias_natureza, nota_redacao, aluno_id, simulado_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO notas " +
+                "(notalinguagens, notacienciashumanas, notacienciasnatureza, notamatematica, notaredacao, id_aluno, id_simulado) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connectionBd.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setDouble(1, entidade.getNotaLinguagens());
             stmt.setDouble(2, entidade.getNotaCienciasHumanas());
             stmt.setDouble(3, entidade.getNotaCienciasNatureza());
-            stmt.setDouble(4, entidade.getNotaRedacao());
-            stmt.setInt(5, entidade.getIdAluno());
-            stmt.setInt(6, entidade.getIdSimulado());
+            stmt.setDouble(4, entidade.getNotaMatematica());
+            stmt.setDouble(5, entidade.getNotaRedacao());
+            stmt.setInt(6, entidade.getIdAluno());
+            stmt.setInt(7, entidade.getIdSimulado());
 
             stmt.executeUpdate();
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    entidade.setIdNota(generatedKeys.getInt(1));
+                    entidade.setIdNota(generatedKeys.getInt("id"));
                 }
             }
 
@@ -40,9 +43,10 @@ public class NotaRepository implements EntityBd<Nota> {
         }
     }
 
+
     @Override
     public void deletar(int id) {
-        String sql = "DELETE FROM notas WHERE id_nota = ?";
+        String sql = "DELETE FROM notas WHERE id = ?";
 
         try (PreparedStatement stmt = connectionBd.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -54,17 +58,21 @@ public class NotaRepository implements EntityBd<Nota> {
 
     @Override
     public void atualizar(Nota entidade) {
-        String sql = "UPDATE notas SET nota_linguagens = ?, nota_ciencias_humanas = ?, nota_ciencias_natureza = ?, nota_redacao = ?, aluno_id = ?, simulado_id = ? WHERE id_nota = ?";
+        String sql = "UPDATE notas SET " +
+                "notalinguagens = ?, notacienciashumanas = ?, notacienciasnatureza = ?, " +
+                "notamatematica = ?, notaredacao = ?, id_aluno = ?, id_simulado = ? " +
+                "WHERE id = ?";
 
         try (PreparedStatement stmt = connectionBd.prepareStatement(sql)) {
 
             stmt.setDouble(1, entidade.getNotaLinguagens());
             stmt.setDouble(2, entidade.getNotaCienciasHumanas());
             stmt.setDouble(3, entidade.getNotaCienciasNatureza());
-            stmt.setDouble(4, entidade.getNotaRedacao());
-            stmt.setInt(5, entidade.getIdAluno());
-            stmt.setInt(6, entidade.getIdSimulado());
-            stmt.setInt(7, entidade.getIdNota()); // ID para o WHERE
+            stmt.setDouble(4, entidade.getNotaMatematica());
+            stmt.setDouble(5, entidade.getNotaRedacao());
+            stmt.setInt(6, entidade.getIdAluno());
+            stmt.setInt(7, entidade.getIdSimulado());
+            stmt.setInt(8, entidade.getIdNota());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -75,20 +83,21 @@ public class NotaRepository implements EntityBd<Nota> {
     @Override
     public List<Nota> listar() {
         List<Nota> notasList = new ArrayList<>();
-        String sql = "SELECT id_nota, nota_linguagens, nota_ciencias_humanas, nota_ciencias_natureza, nota_redacao, aluno_id, simulado_id FROM notas";
+        String sql = "SELECT * FROM notas";
 
         try (PreparedStatement stmt = connectionBd.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 notasList.add(new Nota(
-                        rs.getInt("id_nota"),
-                        rs.getDouble("nota_linguagens"),
-                        rs.getDouble("nota_ciencias_humanas"),
-                        rs.getDouble("nota_ciencias_natureza"),
-                        rs.getDouble("nota_redacao"),
-                        rs.getInt("aluno_id"),
-                        rs.getInt("simulado_id")
+                        rs.getInt("id"),
+                        rs.getDouble("notalinguagens"),
+                        rs.getDouble("notacienciashumanas"),
+                        rs.getDouble("notacienciasnatureza"),
+                        rs.getDouble("notamatematica"),
+                        rs.getDouble("notaredacao"),
+                        rs.getInt("id_aluno"),
+                        rs.getInt("id_simulado")
                 ));
             }
 
@@ -98,4 +107,66 @@ public class NotaRepository implements EntityBd<Nota> {
 
         return notasList;
     }
+
+
+    public List<Nota> acharAlunoId(int idAluno) {
+        List<Nota> notas = new ArrayList<>();
+        String sql = "SELECT * FROM notas WHERE id_aluno = ?";
+
+        try (PreparedStatement stmt = connectionBd.prepareStatement(sql)) {
+
+            stmt.setInt(1, idAluno);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                notas.add(new Nota(
+                        rs.getInt("id"),
+                        rs.getDouble("notalinguagens"),
+                        rs.getDouble("notacienciashumanas"),
+                        rs.getDouble("notacienciasnatureza"),
+                        rs.getDouble("notamatematica"),
+                        rs.getDouble("notaredacao"),
+                        rs.getInt("id_aluno"),
+                        rs.getInt("id_simulado")
+                ));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notas;
+    }
+
+
+    public List<Nota> acharSimuladoId(int idSimulado) {
+        List<Nota> notas = new ArrayList<>();
+        String sql = "SELECT * FROM notas WHERE id_simulado = ?";
+
+        try (PreparedStatement stmt = connectionBd.prepareStatement(sql)) {
+
+            stmt.setInt(1, idSimulado);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                notas.add(new Nota(
+                        rs.getInt("id"),
+                        rs.getDouble("notalinguagens"),
+                        rs.getDouble("notacienciashumanas"),
+                        rs.getDouble("notacienciasnatureza"),
+                        rs.getDouble("notamatematica"),
+                        rs.getDouble("notaredacao"),
+                        rs.getInt("id_aluno"),
+                        rs.getInt("id_simulado")
+                ));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notas;
+    }
+
+
 }

@@ -1,7 +1,6 @@
 package repository;
 
-import org.example.entidades.Coordenador;
-import org.example.entidades.Professor;
+import entidades.Professor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

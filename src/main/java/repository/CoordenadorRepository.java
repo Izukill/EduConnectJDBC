@@ -1,8 +1,7 @@
 package repository;
 
 
-import org.example.entidades.Aluno;
-import org.example.entidades.Coordenador;
+import entidades.Coordenador;
 
 
 import java.sql.Connection;

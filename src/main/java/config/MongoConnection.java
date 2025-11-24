@@ -6,7 +6,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection {
 
-    private static final String connection= "mongodb://localhost:27017/";
+    private static final String connection= "mongodb+srv://luanloreto_db_user:6tNQKfLwajCsGFIi@clustermy.acolqyr.mongodb.net/";
 
     private static final String bdNome= "eduConnect";
 

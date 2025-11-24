@@ -1,6 +1,6 @@
 package repository;
 
-import org.example.entidades.Pessoa;
+import entidades.Pessoa;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

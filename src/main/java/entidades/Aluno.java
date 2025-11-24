@@ -1,4 +1,4 @@
-package org.example.entidades;
+package entidades;
 
 public class Aluno extends Pessoa {
 
